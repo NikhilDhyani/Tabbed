@@ -40,6 +40,8 @@ import static android.R.attr.name;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String userId;
+    String uid;
+    String email;
     // user = firebase.auth().currentUser;
 
     FirebaseUser userss = FirebaseAuth.getInstance().getCurrentUser();
@@ -122,7 +124,7 @@ import static android.R.attr.name;
                 if (userss != null) {
                     // Name, email address, and profile photo Url
                     String name = userss.getDisplayName();
-                    String email = userss.getEmail();
+                    email = userss.getEmail();
                     //Uri photoUrl = userss.getPhotoUrl();
 
                     // Check if user's email is verified
@@ -131,20 +133,19 @@ import static android.R.attr.name;
                     // The user's ID, unique to the Firebase project. Do NOT use this value to
                     // authenticate with your backend server, if you have one. Use
                     // FirebaseUser.getToken() instead.
-                    String uid = userss.getUid();
-                    updateUser(LinkObtained);
+                     uid = userss.getUid();
+                    updateUser(LinkObtained,uid,email);
                 }
                 //NEW CODE ENDED
 
 
-               // userId = mFirebaseDatabase.push().getKey();
+                userId = mFirebaseDatabase.push().getKey();
 
-             //   if (TextUtils.isEmpty(userId))
-               // {
-                 //   createUser(LinkObtained);
-                //}
+                if (TextUtils.isEmpty(userId)) {
+                    createUser(LinkObtained);
+                }
                 else {
-                    updateUser(LinkObtained);
+                    updateUser(LinkObtained,uid,email);
                 }
 
             }
@@ -160,20 +161,20 @@ import static android.R.attr.name;
                     userId = mFirebaseDatabase.push().getKey();
                 }
 
-                User user = new User(link,"ehllo");
+                User user = new User(link,"ehllo",email);
 
                 mFirebaseDatabase.child(userId).setValue(user);
 
 
             }
-            private void updateUser(String link) {
+            private void updateUser(String link,String id,String email) {
                 // updating the user via child nodes
                // if (!TextUtils.isEmpty(link))
                  //   mFirebaseDatabase.child(userId).child("name").setValue(name);
 
                 //if (!TextUtils.isEmpty(link))
-                userId = mFirebaseDatabase.push().getKey();
-                User user = new User(link,"ehllSSo");
+               userId = id;
+                User user = new User(link,"ehllSSo",email);
 
                 mFirebaseDatabase.child(userId).setValue(user);
                  //   mFirebaseDatabase.child(userId).child("link").setValue(link);
