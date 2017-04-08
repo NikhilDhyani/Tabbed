@@ -43,7 +43,7 @@ import static android.R.attr.name;
     String uid;
     String email;
     // user = firebase.auth().currentUser;
-    //LATEST
+    //LATESTs
     FirebaseUser userss = FirebaseAuth.getInstance().getCurrentUser();
 
 
